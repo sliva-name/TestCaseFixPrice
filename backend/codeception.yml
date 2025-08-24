@@ -1,0 +1,33 @@
+<?php
+/*
+ * Suite configuration for `codeception`
+ *
+ * Here you can configure different suites for testing your application.
+ * For now, I'm setting up basic configuration for `unit`, `functional` and `acceptance` tests.
+ */
+
+$config = [
+    'paths' => [
+        'tests' => 'tests',
+        'output' => 'tests/_output',
+        'data' => 'tests/_data',
+        'support' => 'tests/_support',
+        'envs' => 'tests/_envs'
+    ],
+    'actor' => 'Tester',
+    'settings' => [
+        'bootstrap' => '_bootstrap.php',
+        'colors' => true,
+        'memory_limit' => '1024M'
+    ],
+    'modules' => [
+        'config' => [
+            'Yii2' => [
+                'applicationClass' => 'yii\web\Application',
+                'configFile' => 'config/test.php',
+            ]
+        ]
+    ]
+];
+
+return $config;

@@ -1,0 +1,110 @@
+### Сервис вакансий - Примеры API запросов
+
+# Базовый URL
+@baseUrl = http://localhost/api
+
+### 1. Получение списка вакансий (по умолчанию)
+GET {{baseUrl}}/vacancies
+Content-Type: application/json
+
+###
+
+### 2. Получение списка вакансий с пагинацией
+GET {{baseUrl}}/vacancies?page=1&per_page=5
+Content-Type: application/json
+
+###
+
+### 3. Сортировка по зарплате (по убыванию)
+GET {{baseUrl}}/vacancies?sort_by=salary&sort_order=desc
+Content-Type: application/json
+
+###
+
+### 4. Сортировка по зарплате (по возрастанию)
+GET {{baseUrl}}/vacancies?sort_by=salary&sort_order=asc
+Content-Type: application/json
+
+###
+
+### 5. Сортировка по дате создания (новые сначала)
+GET {{baseUrl}}/vacancies?sort_by=created_at&sort_order=desc
+Content-Type: application/json
+
+###
+
+### 6. Сортировка по названию (алфавитно)
+GET {{baseUrl}}/vacancies?sort_by=title&sort_order=asc
+Content-Type: application/json
+
+###
+
+### 7. Получение конкретной вакансии (все поля)
+GET {{baseUrl}}/vacancy/1
+Content-Type: application/json
+
+###
+
+### 8. Получение конкретной вакансии (только название и зарплата)
+GET {{baseUrl}}/vacancy/1?fields=title,salary
+Content-Type: application/json
+
+###
+
+### 9. Получение конкретной вакансии (только описание)
+GET {{baseUrl}}/vacancy/1?fields=description
+Content-Type: application/json
+
+###
+
+### 10. Создание новой вакансии
+POST {{baseUrl}}/vacancy
+Content-Type: application/json
+
+{
+    "title": "Full Stack Developer",
+    "description": "Требуется опытный Full Stack разработчик для работы с современным стеком технологий. Обязательные навыки: JavaScript, PHP, MySQL, Docker. Опыт работы от 2 лет.",
+    "salary": 160000
+}
+
+###
+
+### 11. Создание вакансии с минимальными данными
+POST {{baseUrl}}/vacancy
+Content-Type: application/json
+
+{
+    "title": "Junior Developer",
+    "description": "Стажер для изучения веб-разработки",
+    "salary": 50000
+}
+
+###
+
+### 12. Попытка создания вакансии с неверными данными (для тестирования валидации)
+POST {{baseUrl}}/vacancy
+Content-Type: application/json
+
+{
+    "title": "",
+    "description": "Описание",
+    "salary": -1000
+}
+
+###
+
+### 13. Получение несуществующей вакансии (для тестирования ошибок)
+GET {{baseUrl}}/vacancy/999
+Content-Type: application/json
+
+###
+
+### 14. Получение списка вакансий с большим количеством на странице
+GET {{baseUrl}}/vacancies?per_page=20
+Content-Type: application/json
+
+###
+
+### 15. Получение второй страницы
+GET {{baseUrl}}/vacancies?page=2&per_page=5
+Content-Type: application/json
