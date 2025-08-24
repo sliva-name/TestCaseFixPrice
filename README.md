@@ -8,7 +8,7 @@ REST API для хранения и управления вакансиями. �
 
 ```bash
 # Клонирование проекта
-git clone <repository-url>
+git clone https://github.com/sliva-name/TestCaseFixPrice.git
 cd TestCase2
 
 # Запуск всех сервисов
@@ -36,9 +36,8 @@ make migrate
 
 ## Доступ к сервисам
 
-- **Frontend**: http://localhost:3000
+- **Frontend**: http://localhost
 - **Backend API**: http://localhost/api
-- **Backend Admin**: http://localhost
 
 ## API Endpoints
 
@@ -107,22 +106,7 @@ TestCase2/
 
 ### Требования
 - Docker & Docker Compose
-- Node.js 18+ (для локальной разработки frontend)
-- PHP 8.1+ (для локальной разработки backend)
 
-### Frontend разработка
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### Backend разработка
-```bash
-cd backend
-composer install
-php yii serve
-```
 
 ## База данных
 
