@@ -46,7 +46,7 @@ Content-Type: application/json
 ###
 
 ### 8. Получение конкретной вакансии (только название и зарплата)
-GET {{baseUrl}}/vacancy/1?fields=title,salary
+GET {{baseUrl}}/vacancy/1?fields=title,description
 Content-Type: application/json
 
 ###
@@ -106,5 +106,5 @@ Content-Type: application/json
 ###
 
 ### 15. Получение второй страницы
-GET {{baseUrl}}/vacancies?page=2&per_page=5
+GET {{baseUrl}}/vacancies?page=2&per_page=10
 Content-Type: application/json
