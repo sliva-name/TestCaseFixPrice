@@ -21,10 +21,10 @@ class JsonErrorHandler extends ErrorHandler
         $response = Yii::$app->getResponse();
         $response->clear();
         $response->format = Response::FORMAT_JSON;
-        
+
         $statusCode = property_exists($exception, 'statusCode') ? $exception->statusCode : 500;
         $response->setStatusCode($statusCode);
-        
+
         $errorData = [
             'success' => false,
             'error' => [
@@ -32,7 +32,7 @@ class JsonErrorHandler extends ErrorHandler
                 'message' => $exception->getMessage() ?: 'Внутренняя ошибка сервера',
             ],
         ];
-        
+
         // Добавляем детали валидации для InvalidArgumentException
         if ($exception instanceof \InvalidArgumentException) {
             $decoded = json_decode($exception->getMessage(), true);
@@ -41,7 +41,7 @@ class JsonErrorHandler extends ErrorHandler
                 $errorData['error']['message'] = 'Ошибка валидации';
             }
         }
-        
+
         // Отладочная информация в dev режиме
         if (defined('YII_DEBUG') && YII_DEBUG) {
             $errorData['error']['debug'] = [
@@ -50,7 +50,7 @@ class JsonErrorHandler extends ErrorHandler
                 'line' => $exception->getLine(),
             ];
         }
-        
+
         $response->data = $errorData;
         return $response;
     }

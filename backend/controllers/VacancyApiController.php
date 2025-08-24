@@ -25,7 +25,7 @@ class VacancyApiController extends BaseApiController
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
-        
+
         $behaviors['verbs'] = [
             'class' => VerbFilter::class,
             'actions' => [
@@ -34,7 +34,7 @@ class VacancyApiController extends BaseApiController
                 'create' => ['POST'],
             ],
         ];
-        
+
         return $behaviors;
     }
 
@@ -50,14 +50,14 @@ class VacancyApiController extends BaseApiController
             'sort_by' => $request->get('sort_by'),
             'sort_order' => $request->get('sort_order'),
         ];
-        
+
         $dataProvider = $this->getVacancyService()->getList($params);
         $models = $dataProvider->getModels();
         $pagination = $dataProvider->getPagination();
 
         $data = [
             'items' => array_map(
-                fn($v) => $v->toArray(['title', 'salary', 'description']), 
+                fn($v) => $v->toArray(['title', 'salary', 'description']),
                 $models
             ),
             'pagination' => [
@@ -81,20 +81,20 @@ class VacancyApiController extends BaseApiController
     public function actionView(int $id): array
     {
         $vacancy = $this->getVacancyService()->findById($id);
-        
+
         if (!$vacancy) {
             return $this->notFoundResponse('Вакансия не найдена');
         }
-        
+
         $fields = Yii::$app->request->get('fields');
-        
+
         if ($fields) {
             // Если указан параметр fields - возвращаем только указанные опциональные поля
             $requestedFields = $this->parseFields($fields);
             // Ограничиваем только опциональными полями: description, title
             $allowedOptionalFields = ['description', 'title'];
             $validFields = array_intersect($requestedFields, $allowedOptionalFields);
-            
+
             if (!empty($validFields)) {
                 // Формируем данные вручную для точного контроля
                 $data = [];
@@ -117,7 +117,7 @@ class VacancyApiController extends BaseApiController
                 'description' => $vacancy->description,
             ];
         }
-        
+
         return $this->successResponse($data);
     }
 
@@ -127,24 +127,24 @@ class VacancyApiController extends BaseApiController
     public function actionCreate(): array
     {
         $data = Yii::$app->request->getBodyParams();
-        
+
         if (empty($data)) {
             return $this->errorResponse([], 'Отсутствуют данные для создания вакансии', 400);
         }
-        
+
         try {
             $vacancy = $this->getVacancyService()->create($data);
-            
+
             // Устанавливаем Location header
             Yii::$app->response->headers->set('Location', '/api/vacancy/' . $vacancy->id);
-            
+
             $responseData = [
                 'id' => $vacancy->id,
                 'success' => true,
             ];
-            
+
             return $this->successResponse($responseData, 'Вакансия создана', 201);
-            
+
         } catch (\InvalidArgumentException $e) {
             $errors = json_decode($e->getMessage(), true) ?: ['general' => $e->getMessage()];
             return $this->validationErrorResponse($errors);

@@ -63,11 +63,13 @@ if (defined('YII_ENV_DEV') && YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+        'allowedIPs' => ['*'], // Разрешаем доступ из любой IP для Docker
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'allowedIPs' => ['*'], // Разрешаем доступ из любой IP для Docker
     ];
 }
 
