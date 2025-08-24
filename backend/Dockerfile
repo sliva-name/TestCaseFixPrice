@@ -25,6 +25,10 @@ COPY composer.json composer.lock ./
 # Установка зависимостей (включая dev для разработки)
 RUN composer install --optimize-autoloader --no-scripts
 
+# Копирование и настройка entrypoint скрипта сначала
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Копирование остальных файлов
 COPY . .
 
@@ -40,10 +44,6 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/runtime \
     && chmod -R 775 /var/www/html/web/assets
 
-# Копирование и настройка entrypoint скрипта
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 EXPOSE 9000
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/docker-entrypoint.sh"]
